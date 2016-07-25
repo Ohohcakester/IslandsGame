@@ -2,6 +2,8 @@
 var Stage = function() {
     this.islands = [];
     this.portalEdges = [];
+    this.startIsland = -1;
+    this.goalDoor = null;
 }
 
 
@@ -9,12 +11,54 @@ var portal_radius = 7;
 var pickup_radius = 5;
 var draw = function(v){v.draw()};
 
-var Player = function(x, y, v) {
-    this.x = x;
-    this.y = y;
-    this.v = v;
+var Player = function(stage) {
+    this.v = stage.startIsland;
+    var island = stage.islands[this.v];
+
+    this.x = (island.x1+island.x2)/2;
+    this.y = island.y2 - 5;
+    this.radius = 8;
     this.energy = 0;
     this.coins = 0;
+}
+
+Player.prototype = {
+    draw: function() {
+        drawCircle(this.x, this.y, this.radius+4, '#808080');
+        drawCircle(this.x, this.y, this.radius+2, '#ffff00');
+        drawCircle(this.x, this.y, this.radius, '#80ff00');
+    },
+
+    update: function() {
+        // Up: 38
+        // Down: 40
+        // Left: 37
+        // Right: 39
+        if (keyPressed[38]) this.y -= 4;
+        if (keyPressed[40]) this.y += 4;
+        if (keyPressed[37]) this.x -= 4;
+        if (keyPressed[39]) this.x += 4;
+    },
+
+}
+
+var GoalDoor = function(x, y, v) {
+    var width = 30;
+    var height = 10;
+    this.x1 = x - width/2;
+    this.y1 = y - height/2;
+    this.x2 = x + width/2;
+    this.y2 = y + height/2;
+    this.width = width;
+    this.height = height;
+
+    this.v = v;
+}
+
+GoalDoor.prototype = {
+    draw: function() {
+        drawRect(this.x1, this.y1, this.width, this.height, '#80ff00');
+    }
 }
 
 

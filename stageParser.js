@@ -120,5 +120,10 @@ function generateStage(stageString) {
         //console.log("Edge " + e.v + " -> " + e.w + ": " + JSON.stringify(g.edge(e)));
     });
 
+    stage.startIsland = data.start;
+
+    var goalIsland = stage.islands[data.goal];
+    stage.goalDoor = new GoalDoor((goalIsland.x1+goalIsland.x2)/2, goalIsland.y1+5, goalIsland.v);
+
     return stage;
 }

@@ -16,9 +16,17 @@ window.addEventListener("click", mouseClick, false);
 mainCanvas.width = width;
 mainCanvas.height = height;
 
-mainCanvas.onmousedown = function(){
-  return false;
+keyPressed = {
+    38: false,
+    40: false,
+    37: false,
+    39: false,
 };
+
+var lastDownTarget;
+document.addEventListener('mousedown', function(event) {
+    lastDownTarget = event.target;
+}, false);
 
 // REGION - HTML5 CANVAS BOILERPLATE - END
 
@@ -39,7 +47,7 @@ function initGameFromTextArea() {
 
 function initGame(stageString) {
     game.stage = generateStage(stageString);
-    redraw();
+    game.player = new Player(game.stage);
 }
 
 function withinScreen(relX, relY) {
@@ -53,8 +61,7 @@ function mouseClick(e) {
 }
 
 function keyboardRelease(e) {
-    return;
-    keyPressed[getKeyIndex(e)] = false;
+    if (e.keyCode in keyPressed) keyPressed[e.keyCode] = false;
 }
 
 function afterMove() {
@@ -64,22 +71,33 @@ function afterMove() {
 }
 
 function keyboardPress(e) {
-    //console.log(e.keyCode);
-    switch(e.keyCode) {
+    if(lastDownTarget != mainCanvas) return;
+    console.log(e.keyCode);
+    if (e.keyCode in keyPressed) {
+        keyPressed[e.keyCode] = true;
+        e.preventDefault();
+    }
+    /*switch(e.keyCode) {
         case 38: // Up
             e.preventDefault();
             break;
-    }
-    redraw();
+    }*/
 }
 
 function updateFrame(){
+    if (game.player != null) {
+        game.player.update();
+    }
 }
 
 function drawFrame(){
     if (game.stage != null) {
         game.stage.portalEdges.forEach(draw);
         game.stage.islands.forEach(draw);
+        game.stage.goalDoor.draw();
+    }
+    if (game.player != null) {
+        game.player.draw();
     }
 }
 
@@ -91,13 +109,10 @@ function clearScreen(){
     ctx.fill();
 };
 
-function redraw() {
-    clearScreen();
-    drawFrame();
-}
-
 function gameLoop(time){
     updateFrame();
+    clearScreen();
+    drawFrame();
     window.requestAnimationFrame(gameLoop);
 }
 

@@ -23,7 +23,7 @@ keyPressed = {
     39: false,
 };
 
-var lastDownTarget;
+var lastDownTarget = mainCanvas;
 document.addEventListener('mousedown', function(event) {
     lastDownTarget = event.target;
 }, false);

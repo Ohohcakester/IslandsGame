@@ -1,7 +1,6 @@
 // REGION - HTML5 CANVAS BOILERPLATE - START
 var width = 600;
 var height = 500;
-var gLoop;
 
 // Initialisation
 var mainCanvas = document.getElementById('mainCanvas');
@@ -77,11 +76,6 @@ function keyboardPress(e) {
         keyPressed[e.keyCode] = true;
         e.preventDefault();
     }
-    /*switch(e.keyCode) {
-        case 38: // Up
-            e.preventDefault();
-            break;
-    }*/
 }
 
 function updateFrame(){

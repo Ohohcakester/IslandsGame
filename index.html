@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>asdf</title>
+    </head>
+    <body class="main">
+        <!--Choose Puzzle Instance:
+        <button onclick="initGame()">Sample</button>-->
+        <div id='window'>
+            <font color=#ffffff>Game</font><br>
+            <canvas id='mainCanvas'></canvas>
+            <script src="dagre.min.js"></script>
+            <script src="helperfunctions.js"></script>
+            <script src="stageParser.js"></script>
+            <script src="map.js"></script>
+            <script src="game.js"></script>
+        </div>
+
+        <button onclick="initGameFromTextArea()">Generate Stage</button>
+        <br>
+<textarea id="stageTextArea" rows="50" cols="50">{
+ "islands":[
+  {"c": 3, "e": 2},
+  {"c": 0, "e": 0},
+  {"c": 1, "e": 1},
+  {"c": 0, "e": 2},
+  {"c": 2, "e": 0},
+  {"c": 0, "e": 3},
+  {"c": 1, "e": 0},
+  {"c": 1, "e": 3},
+  {"c": 1, "e": 0},
+  {"c": 0, "e": 2}
+ ],
+ "portals":[
+  [1,8],
+  [1,2],
+  [2,3],
+  [10,9],
+  [6,3],
+  [7,5],
+  [3,5],
+  [10,8],
+  [2,8],
+  [10,5],
+  [1,6],
+  [1,2],
+  [10,3],
+  [4,5],
+  [7,3],
+  [9,4]
+ ]
+}</textarea>
+
+        <p>Uses <a href="https://github.com/cpettitt/dagre">dagre</a> for graph layouts</p>
+
+        <script type='text/javascript'>window.onload = initGameFromTextArea</script>
+    </body>
+</html>

@@ -42,6 +42,7 @@ document.addEventListener('mousedown', function(event) {
 var game = new function() {
     this.stage = null;
     this.player = null;
+    this.camera = null;
     this.stageCleared = false;
 }
 
@@ -54,6 +55,7 @@ function initGameFromTextArea() {
 
 
 function initGame(stageString) {
+    game.stageCleared = false;
     game.stage = generateStage(stageString);
     game.player = new Player(game.stage);
     game.camera = new Camera(game.stage);

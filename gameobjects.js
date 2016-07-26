@@ -93,11 +93,11 @@ Camera.prototype = {
 
     adjustZoom: function() {
         if (keyPressed[90]) {
-            this.zoom += 0.1;
-            if (this.zoom > 1) this.zoom = 1;
+            this.zoom += 0.05;
+            if (this.zoom > 0.98) this.zoom = 0.98;
         }
         else {
-            this.zoom -= 0.1;
+            this.zoom -= 0.05;
             if (this.zoom < 0.3) this.zoom = 0.3;
         }
 

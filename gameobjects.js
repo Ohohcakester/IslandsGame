@@ -57,7 +57,7 @@ Camera.prototype = {
         this.maxY = maxY;
         this.mapCenterX = (minX+maxX)/2;
         this.mapCenterY = (minY+maxY)/2;
-        
+
         this.zoomOutRatio = Math.max((maxX-minX)/RES_X, (maxY-minY)/RES_Y);
     },
 
@@ -127,7 +127,7 @@ Player.prototype = {
         drawCircle(relX, relY, camera.absToRelScale(this.radius), '#80ff00');
     },
 
-    update: function(stage) {
+    updateMovement: function(stage) {
         // Up: 38
         // Down: 40
         // Left: 37
@@ -142,6 +142,42 @@ Player.prototype = {
         if (this.x >= island.x2) this.x = island.x2;
         if (this.y < island.y1) this.y = island.y1;
         if (this.y >= island.y2) this.y = island.y2;
+    },
+
+    updateCollision: function(stage) {
+        var island = stage.islands[this.v];
+        var this_x = this.x;
+        var this_y = this.y;
+        var this_radius = this.radius;
+
+        island.items.forEach(function(item) {
+            if (!item.isActive) return;
+            var dx = item.x - this_x;
+            var dy = item.y - this_y;
+            var r = item.radius + this_radius;
+
+            if (dx*dx+dy*dy <= r*r) {
+                item.isActive = false;
+                switch(item.type) {
+                case 'energy':
+                    this.energy++;
+                    break;
+                case 'coin':
+                    this.coins++;
+                    break;
+                }
+                //console.log('take ' + item.type);
+            }
+        });
+
+        island.portals.forEach(function(portal) {
+
+        });
+    },
+
+    update: function(stage) {
+        this.updateMovement(stage);
+        this.updateCollision(stage);
     },
 
 }
@@ -224,6 +260,7 @@ var PickupEnergy = function(x, y, v) {
 
 PickupEnergy.prototype = {
     draw: function(camera) {
+        if (!this.isActive) return;
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
@@ -243,6 +280,7 @@ var PickupCoin = function(x, y, v) {
 
 PickupCoin.prototype = {
     draw: function(camera) {
+        if (!this.isActive) return;
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);

@@ -123,7 +123,7 @@ function generateStage(stageString) {
     stage.startIsland = data.start - 1;
 
     var goalIsland = stage.islands[data.goal - 1];
-    stage.goalDoor = new GoalDoor((goalIsland.x1+goalIsland.x2)/2, goalIsland.y1+5, goalIsland.v);
+    goalIsland.door = new GoalDoor((goalIsland.x1+goalIsland.x2)/2, (goalIsland.y1+goalIsland.y2)/2, goalIsland.v);
 
     return stage;
 }

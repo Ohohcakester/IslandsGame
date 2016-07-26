@@ -54,6 +54,14 @@ function drawPolygon(cx, cy, points, colour) {
 
 function drawText(text, size, x, y, colour) {
     ctx.fillStyle = colour;
+    ctx.textAlign = 'left'
+    ctx.font = size+'px Georgia';
+    ctx.fillText(text, x, y);
+}
+
+function drawTextCentered(text, size, x, y, colour) {
+    ctx.fillStyle = colour;
+    ctx.textAlign = 'center'
     ctx.font = size+'px Georgia';
     ctx.fillText(text, x, y);
 }

@@ -41,6 +41,7 @@ document.addEventListener('mousedown', function(event) {
 var game = new function() {
     this.stage = null;
     this.player = null;
+    this.stageCleared = false;
 }
 
 
@@ -55,6 +56,10 @@ function initGame(stageString) {
     game.stage = generateStage(stageString);
     game.player = new Player(game.stage);
     game.camera = new Camera(game.stage);
+}
+
+function stageClear() {
+    game.stageCleared = true;
 }
 
 function withinScreen(relX, relY) {
@@ -97,14 +102,16 @@ function afterMove() {
 }
 
 function updateFrame(){
-    if (game.player != null) {
-        game.player.update(game.stage);
-    }
-    if (game.camera != null) {
-        game.camera.update(game.stage, game.player);
-    }
-    if (game.stage != null) {
-        game.stage.portalEdges.forEach(update(game.stage));
+    if (!game.stageCleared) {
+        if (game.player != null) {
+            game.player.update(game.stage);
+        }
+        if (game.camera != null) {
+            game.camera.update(game.stage, game.player);
+        }
+        if (game.stage != null) {
+            game.stage.portalEdges.forEach(update(game.stage));
+        }
     }
     keyboardReset();
 }
@@ -114,11 +121,13 @@ function drawFrame(){
     if (game.stage != null) {
         game.stage.portalEdges.forEach(draw(cam));
         game.stage.islands.forEach(draw(cam));
-        game.stage.goalDoor.draw(cam);
-        game.stage.drawUI(game.stage, game.player);
     }
     if (game.player != null) {
         game.player.draw(cam);
+    }
+    if (game.stage != null) {
+        game.stage.drawUI(game.stage, game.player);
+        if (game.stageCleared) game.stage.drawStageClear();
     }
 }
 

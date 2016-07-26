@@ -3,7 +3,6 @@ var Stage = function() {
     this.islands = [];
     this.portalEdges = [];
     this.startIsland = -1;
-    this.goalDoor = null;
     this.focusedPortal = -1;
     this.numCoins = 0;
 }
@@ -22,6 +21,10 @@ Stage.prototype = {
             var y = Math.floor(i/nCols);
             drawCircle(baseX + x*spacing, baseY + y*spacing, radius, '#00ffff');
         }
+    },
+
+    drawStageClear: function() {
+        drawTextCentered('STAGE CLEAR', 60, RES_X/2, RES_Y/2, '#fff040');
     },
 }
 
@@ -235,17 +238,27 @@ Player.prototype = {
         }
     },
 
+    updateDoor: function(stage) {
+        var door = stage.islands[this.v].door;
+        if (door == null) return;
+        if (this.coins < stage.numCoins) return;
+        if (this.x >= door.x1 && this.x <= door.x2 && this.y >= door.y1 && this.y <= door.y2) {
+            stageClear();
+        }
+    },
+
     update: function(stage) {
         this.updateMovement(stage);
         this.updateCollision(stage);
         this.updateTeleport(stage);
+        this.updateDoor(stage);
     },
 
 }
 
 var GoalDoor = function(x, y, v) {
-    var width = 30;
-    var height = 10;
+    var width = 60;
+    var height = 60;
     this.x1 = x - width/2;
     this.y1 = y - height/2;
     this.x2 = x + width/2;
@@ -261,7 +274,8 @@ GoalDoor.prototype = {
         var relY1 = camera.absToRelY(this.y1);
         var relY2 = camera.absToRelY(this.y2);
 
-        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#80ff00');
+        drawRect(relX1-5, relY1-5, relX2-relX1+10, relY2-relY1+10, '#00a000');
+        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#008000');
     }
 }
 
@@ -275,6 +289,7 @@ var Island = function(x1, y1, x2, y2, v) {
 
     this.items = [];
     this.portals = [];
+    this.door = null;
 }
 
 Island.prototype = {
@@ -285,6 +300,7 @@ Island.prototype = {
         var relY2 = camera.absToRelY(this.y2);
 
         drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#0000ff');
+        if (this.door != null) this.door.draw(camera);
         this.portals.forEach(draw(camera));
         this.items.forEach(draw(camera));
     },

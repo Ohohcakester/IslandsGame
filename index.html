@@ -5,34 +5,34 @@
     </head>
     <body class="main">
         <center>
-        <!--Choose Puzzle Instance:
-        <button onclick="initGame()">Sample</button>-->
-        <div id='window'>
-            <font color=#ffffff>Game</font><br>
-            <canvas id='mainCanvas'></canvas>
-            <script src="dagre.min.js"></script>
-            <script src="helperfunctions.js"></script>
-            <script src="stageParser.js"></script>
-            <script src="gameobjects.js"></script>
-            <script src="game.js"></script>
-        </div>
-        <div style="padding-bottom:20px">
-            <h2>Instructions:</h2>
-            Collect all the coins (Yellow) and reach the exit to clear the stage!<br>
-            Collect energy (Cyan) to warp between islands. You need 1 energy for each warp.<br>
-            <br>
-            <h3>Movement Controls:</h3>
-            <b>Arrow Keys:</b> Movement<br>
-            <b>Space:</b> Warp<br>
-            <br>
-            <h3>Camera Controls:</h3>
-            <b>Z:</b> Zoom (Hold)<br>
-            <b>Shift:</b> Zoom (Toggle)<br>
-        </div>
+            <!--Choose Puzzle Instance:
+            <button onclick="initGame()">Sample</button>-->
+            <div id='window'>
+                <font color=#ffffff>Game</font><br>
+                <canvas id='mainCanvas'></canvas>
+                <script src="dagre.min.js"></script>
+                <script src="helperfunctions.js"></script>
+                <script src="stageParser.js"></script>
+                <script src="gameobjects.js"></script>
+                <script src="game.js"></script>
+            </div>
+            <div style="padding-bottom:20px">
+                <h2>Instructions:</h2>
+                Collect all the coins (Yellow) and reach the exit to clear the stage!<br>
+                Collect energy (Cyan) to warp between islands. You need 1 energy for each warp.<br>
+                <br>
+                <h3>Movement Controls:</h3>
+                <b>Arrow Keys:</b> Movement<br>
+                <b>Space:</b> Warp<br>
+                <br>
+                <h3>Camera Controls:</h3>
+                <b>Z:</b> Zoom (Hold)<br>
+                <b>Shift:</b> Zoom (Toggle)<br>
+            </div>
 
-        <h3>Create your own Stage!</h3>
-        <button onclick="initGameFromTextArea()">Generate Stage</button>
-        <br>
+            <h3>Create your own Stage!</h3>
+            <button onclick="initGameFromTextArea()">Generate Stage</button>
+            <br>
 <textarea id="stageTextArea" rows="50" cols="50">{
  "start": 1,
  "goal": 5,
@@ -68,8 +68,8 @@
  ]
 }</textarea>
 
-        <p>Uses <a href="https://github.com/cpettitt/dagre">dagre</a> for graph layouts</p>
-</center>
+            <p>Uses <a href="https://github.com/cpettitt/dagre">dagre</a> for graph layouts</p>
+        </center>
         <script type='text/javascript'>window.onload = initGameFromTextArea</script>
     </body>
 </html>

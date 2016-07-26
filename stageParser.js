@@ -99,6 +99,7 @@ function generateStage(stageString) {
         for (var i=0;i<data.islands[index].c;++i) {
             var position = randomPointOnIsland(island.x1, island.y1, island.x2, island.y2);
             island.items.push(new PickupCoin(position[0], position[1], index));
+            stage.numCoins++;
         }
 
         stage.islands[index] = island;

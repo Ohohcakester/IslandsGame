@@ -112,6 +112,7 @@ function drawFrame(){
         game.stage.portalEdges.forEach(draw(cam));
         game.stage.islands.forEach(draw(cam));
         game.stage.goalDoor.draw(cam);
+        game.stage.drawUI(game.stage, game.player);
     }
     if (game.player != null) {
         game.player.draw(cam);

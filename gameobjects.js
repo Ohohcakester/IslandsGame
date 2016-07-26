@@ -5,11 +5,29 @@ var Stage = function() {
     this.startIsland = -1;
     this.goalDoor = null;
     this.focusedPortal = -1;
+    this.numCoins = 0;
+}
+
+Stage.prototype = {
+    drawUI: function(stage, player) {
+        drawText(player.coins + ' / ' + stage.numCoins, 20, 20, 30, '#ffffff');
+
+        var baseX = 120;
+        var baseY = 25;
+        var radius = 9;
+        var spacing = 25;
+        var nCols = Math.ceil((RES_X-2*baseX) / spacing);
+        for (var i=0;i<player.energy;++i) {
+            var x = i%nCols;
+            var y = Math.floor(i/nCols);
+            drawCircle(baseX + x*spacing, baseY + y*spacing, radius, '#00ffff');
+        }
+    },
 }
 
 
 var portal_radius = 12;
-var pickup_radius = 9;
+var pickup_radius = 12;
 var draw = function(camera) {
     return function(v){v.draw(camera)};
 }

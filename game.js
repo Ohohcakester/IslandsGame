@@ -1,6 +1,6 @@
 // REGION - HTML5 CANVAS BOILERPLATE - START
-var width = 600;
-var height = 500;
+var RES_X = 600;
+var RES_Y = 500;
 
 // Initialisation
 var mainCanvas = document.getElementById('mainCanvas');
@@ -12,14 +12,15 @@ window.addEventListener("keydown", keyboardPress, false);
 window.addEventListener("keyup", keyboardRelease, false);
 window.addEventListener("click", mouseClick, false);
 
-mainCanvas.width = width;
-mainCanvas.height = height;
+mainCanvas.width = RES_X;
+mainCanvas.height = RES_Y;
 
 keyPressed = {
-    38: false,
-    40: false,
-    37: false,
-    39: false,
+    38: false, // up
+    40: false, // down
+    37: false, // left
+    39: false, // right
+    90: false, // z
 };
 
 var lastDownTarget = mainCanvas;
@@ -47,10 +48,11 @@ function initGameFromTextArea() {
 function initGame(stageString) {
     game.stage = generateStage(stageString);
     game.player = new Player(game.stage);
+    game.camera = new Camera(game.stage);
 }
 
 function withinScreen(relX, relY) {
-    return relX >= 0 && relY >= 0 && relX <= width && relY <= height;
+    return relX >= 0 && relY >= 0 && relX <= RES_X && relY <= RES_Y;
 }
 
 function mouseClick(e) {
@@ -71,7 +73,7 @@ function afterMove() {
 
 function keyboardPress(e) {
     if(lastDownTarget != mainCanvas) return;
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     if (e.keyCode in keyPressed) {
         keyPressed[e.keyCode] = true;
         e.preventDefault();
@@ -80,25 +82,29 @@ function keyboardPress(e) {
 
 function updateFrame(){
     if (game.player != null) {
-        game.player.update();
+        game.player.update(game.stage);
+    }
+    if (game.camera != null) {
+        game.camera.update(game.stage, game.player);
     }
 }
 
 function drawFrame(){
+    var cam = game.camera;
     if (game.stage != null) {
-        game.stage.portalEdges.forEach(draw);
-        game.stage.islands.forEach(draw);
-        game.stage.goalDoor.draw();
+        game.stage.portalEdges.forEach(draw(cam));
+        game.stage.islands.forEach(draw(cam));
+        game.stage.goalDoor.draw(cam);
     }
     if (game.player != null) {
-        game.player.draw();
+        game.player.draw(cam);
     }
 }
 
 function clearScreen(){
     ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.rect(0, 0, width, height);
+    ctx.rect(0, 0, RES_X, RES_Y);
     ctx.closePath();
     ctx.fill();
 };

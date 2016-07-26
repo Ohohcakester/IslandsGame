@@ -1,15 +1,15 @@
 
 function generateStage(stageString) {
 
-    borderWidth = 20;
+    borderWidth = 60;
 
     function decideIslandSize(nEnergy, nCoins, nEdges) {
         var nItems = nEnergy + nCoins;
         var sizeX = Math.max(Math.ceil(Math.sqrt(nItems) + (Math.random()*5-2)), 1);
         var sizeY = Math.ceil(nItems / sizeX);
 
-        var width = sizeX * 20 + 2*borderWidth;
-        var height = sizeY * 20 + 2*borderWidth;
+        var width = sizeX * 60 + 2*borderWidth;
+        var height = sizeY * 60 + 2*borderWidth;
         return [width, height];
     }
 
@@ -57,8 +57,7 @@ function generateStage(stageString) {
     g.graph().nodesep = 25;
     g.graph().marginx = 50;
     g.graph().marginy = 50;
-    console.dir(g.graph());
-
+    
     // Default to assigning a new object as a label for each new edge.
     g.setDefaultEdgeLabel(function() { return {}; });
 

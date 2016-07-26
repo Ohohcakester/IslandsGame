@@ -77,7 +77,7 @@ Camera.prototype = {
         }
         else {
             this.zoom -= 0.1;
-            if (this.zoom < 0) this.zoom = 0;
+            if (this.zoom < 0.3) this.zoom = 0.3;
         }
 
     },

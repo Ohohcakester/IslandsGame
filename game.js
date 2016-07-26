@@ -21,6 +21,7 @@ keyPressed = {
     37: false, // left
     39: false, // right
     90: false, // z
+    32: false, // space
 };
 
 var lastDownTarget = mainCanvas;
@@ -86,6 +87,9 @@ function updateFrame(){
     }
     if (game.camera != null) {
         game.camera.update(game.stage, game.player);
+    }
+    if (game.stage != null) {
+        game.stage.portalEdges.forEach(update(game.stage));
     }
 }
 

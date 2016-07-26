@@ -4,6 +4,7 @@ var Stage = function() {
     this.portalEdges = [];
     this.startIsland = -1;
     this.goalDoor = null;
+    this.focusedPortal = -1;
 }
 
 
@@ -11,6 +12,9 @@ var portal_radius = 12;
 var pickup_radius = 9;
 var draw = function(camera) {
     return function(v){v.draw(camera)};
+}
+var update = function(stage) {
+    return function(v){v.update(stage)};
 }
 
 var Camera = function(stage) {
@@ -170,9 +174,19 @@ Player.prototype = {
             }
         });
 
+        var closestDistance = this.radius + portal_radius;
+        closestDistance = closestDistance*closestDistance;
+        var closestPortal = -1;
         island.portals.forEach(function(portal) {
-
+            var dx = portal.x - this_x;
+            var dy = portal.y - this_y;
+            var dist = dx*dx+dy*dy;
+            if (dist < closestDistance) {
+                closestDistance = dist;
+                closestPortal = portal.edgeIndex;
+            }
         });
+        stage.focusedPortal = closestPortal;
     },
 
     update: function(stage) {
@@ -292,9 +306,10 @@ PickupCoin.prototype = {
 
 var PortalEdge = function(v1, v2, edgeIndex, points) {
     this.v1 = v1;
-    this.v2 = 2;
+    this.v2 = v2;
     this.edgeIndex = edgeIndex;
     this.points = points;
+    this.focused = false;
 }
 
 var convertPoint = function(camera) {
@@ -311,7 +326,14 @@ PortalEdge.prototype = {
         var points = this.points.map(convertPoint(camera));
         var thickness = camera.absToRelScale(10);
 
-        drawCurve(points, thickness, '#ff0000');
+        if (this.focused) {
+            drawCurve(points, thickness, '#ffff00');
+        } else {
+            drawCurve(points, thickness, '#ff0000');
+        }
     },
 
+    update: function(stage) {
+        this.focused = (stage.focusedPortal == this.edgeIndex);
+    },
 }

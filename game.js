@@ -1,6 +1,9 @@
 // REGION - HTML5 CANVAS BOILERPLATE - START
 var RES_X = 600;
 var RES_Y = 500;
+var fps = 60;
+var nextFrameTime = 0;
+var frameTime = 1000/fps;
 
 // Initialisation
 var mainCanvas = document.getElementById('mainCanvas');
@@ -128,7 +131,13 @@ function clearScreen(){
 };
 
 function gameLoop(time){
-    updateFrame();
+    while (time > nextFrameTime) {
+        while (time - nextFrameTime > frameTime*5) nextFrameTime += frameTime*5;
+        // Update Frame
+        updateFrame();
+        nextFrameTime += frameTime;
+    }
+
     clearScreen();
     drawFrame();
     window.requestAnimationFrame(gameLoop);

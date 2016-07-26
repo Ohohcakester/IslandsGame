@@ -21,8 +21,10 @@ keyPressed = {
     37: false, // left
     39: false, // right
     90: false, // z
-    32: false, // space
 };
+keyClicked = {
+    32: false, // space
+}
 
 var lastDownTarget = mainCanvas;
 document.addEventListener('mousedown', function(event) {
@@ -62,22 +64,32 @@ function mouseClick(e) {
     if (!withinScreen(mouseX, mouseY)) return;
 }
 
-function keyboardRelease(e) {
-    if (e.keyCode in keyPressed) keyPressed[e.keyCode] = false;
-}
-
-function afterMove() {
-    if (isType(tiles[playerY][playerX], item_goal)) {
-        winGame();
-    }
-}
-
 function keyboardPress(e) {
     if(lastDownTarget != mainCanvas) return;
     //console.log(e.keyCode);
     if (e.keyCode in keyPressed) {
         keyPressed[e.keyCode] = true;
         e.preventDefault();
+    }
+    if (e.keyCode in keyClicked) {
+        keyClicked[e.keyCode] = true;
+        e.preventDefault();
+    }
+}
+
+function keyboardRelease(e) {
+    if (e.keyCode in keyPressed) keyPressed[e.keyCode] = false;
+}
+
+function keyboardReset() {
+    for (var key in keyClicked) {
+        keyClicked[key] = false;
+    }
+}
+
+function afterMove() {
+    if (isType(tiles[playerY][playerX], item_goal)) {
+        winGame();
     }
 }
 
@@ -91,6 +103,7 @@ function updateFrame(){
     if (game.stage != null) {
         game.stage.portalEdges.forEach(update(game.stage));
     }
+    keyboardReset();
 }
 
 function drawFrame(){

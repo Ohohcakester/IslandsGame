@@ -154,11 +154,12 @@ Player.prototype = {
         var this_y = this.y;
         var this_radius = this.radius;
 
-        island.items.forEach(function(item) {
-            if (!item.isActive) return;
-            var dx = item.x - this_x;
-            var dy = item.y - this_y;
-            var r = item.radius + this_radius;
+        for (var i=0;i<island.items.length;++i) {
+            var item = island.items[i];
+            if (!item.isActive) continue;
+            var dx = item.x - this.x;
+            var dy = item.y - this.y;
+            var r = item.radius + this.radius;
 
             if (dx*dx+dy*dy <= r*r) {
                 item.isActive = false;
@@ -172,12 +173,14 @@ Player.prototype = {
                 }
                 //console.log('take ' + item.type);
             }
-        });
+        }
 
         var closestDistance = this.radius + portal_radius;
         closestDistance = closestDistance*closestDistance;
         var closestPortal = -1;
-        island.portals.forEach(function(portal) {
+        for (var i=0;i<island.portals.length;++i) {
+            var portal = island.portals[i];
+
             var dx = portal.x - this_x;
             var dy = portal.y - this_y;
             var dist = dx*dx+dy*dy;
@@ -185,13 +188,39 @@ Player.prototype = {
                 closestDistance = dist;
                 closestPortal = portal.edgeIndex;
             }
-        });
+        }
         stage.focusedPortal = closestPortal;
+    },
+
+    updateTeleport: function(stage) {
+        if (keyClicked[32] && stage.focusedPortal != -1) {
+            if (this.energy > 0) {
+                this.energy--;
+                var edgeIndex = stage.focusedPortal;
+                var edge = stage.portalEdges[edgeIndex];
+                var targetV = edge.v1;
+                if (edge.v1 == this.v) targetV = edge.v2;
+
+                this.v = targetV;
+                var island = stage.islands[targetV];
+                for (var i=0;i<island.portals.length;++i) {
+                    var portal = island.portals[i];
+                    if (portal.edgeIndex == edgeIndex) {
+                        this.x = portal.x;
+                        this.y = portal.y;
+                    }
+                }
+
+            } else {
+                console.log("Not enough energy! " + this.energy);
+            }
+        }
     },
 
     update: function(stage) {
         this.updateMovement(stage);
         this.updateCollision(stage);
+        this.updateTeleport(stage);
     },
 
 }

@@ -142,7 +142,7 @@ var Player = function(stage) {
 
     this.x = (island.x1+island.x2)/2;
     this.y = island.y2 - 5;
-    this.radius = 10;
+    this.radius = 15;
     this.speed = 7;
     this.energy = 0;
     this.coins = 0;
@@ -305,7 +305,7 @@ Island.prototype = {
         var relY1 = camera.absToRelY(this.y1);
         var relY2 = camera.absToRelY(this.y2);
 
-        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#0000ff');
+        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#2050d0');
         if (this.door != null) this.door.draw(camera);
         this.portals.forEach(draw(camera));
         this.items.forEach(draw(camera));

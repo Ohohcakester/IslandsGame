@@ -26,6 +26,7 @@ keyPressed = {
     90: false, // z
 };
 keyClicked = {
+    16: false, // lshift
     32: false, // space
 }
 

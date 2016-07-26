@@ -42,6 +42,9 @@ var Camera = function(stage) {
     this.x = 0;
     this.y = 0;
 
+    this.isZoomingOut = false;
+    this.defaultZoomedOut = false;
+
     // 0 = zoomed in, 1 = zoomed out.
     this.zoom = 0;
     this.computeBounds(stage);
@@ -92,7 +95,10 @@ Camera.prototype = {
     },
 
     adjustZoom: function() {
-        if (keyPressed[90]) {
+        this.isZoomingOut = keyPressed[90] != this.defaultZoomedOut;
+        if (keyClicked[16]) this.defaultZoomedOut = !this.defaultZoomedOut;
+
+        if (this.isZoomingOut) {
             this.zoom += 0.05;
             if (this.zoom > 0.98) this.zoom = 0.98;
         }

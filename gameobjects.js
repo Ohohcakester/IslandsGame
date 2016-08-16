@@ -142,7 +142,7 @@ var Player = function(stage) {
 
     this.x = (island.x1+island.x2)/2;
     this.y = island.y2 - 5;
-    this.radius = 15;
+    this.radius = 20;
     this.speed = 7;
     this.energy = 0;
     this.coins = 0;
@@ -154,8 +154,8 @@ Player.prototype = {
         var relY = camera.absToRelY(this.y);
 
         drawCircle(relX, relY, camera.absToRelScale(this.radius+6), '#808080');
-        drawCircle(relX, relY, camera.absToRelScale(this.radius+3), '#ffff00');
-        drawCircle(relX, relY, camera.absToRelScale(this.radius), '#80ff00');
+        drawCircle(relX, relY, camera.absToRelScale(this.radius+3), '#ffffff');
+        drawCircle(relX, relY, camera.absToRelScale(this.radius), '#ffc0c0');
     },
 
     updateMovement: function(stage) {
@@ -280,8 +280,8 @@ GoalDoor.prototype = {
         var relY1 = camera.absToRelY(this.y1);
         var relY2 = camera.absToRelY(this.y2);
 
-        drawRect(relX1-5, relY1-5, relX2-relX1+10, relY2-relY1+10, '#00a000');
-        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#008000');
+        drawRect(relX1-5, relY1-5, relX2-relX1+10, relY2-relY1+10, '#40a0df');
+        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#4060ef');
     }
 }
 
@@ -305,7 +305,7 @@ Island.prototype = {
         var relY1 = camera.absToRelY(this.y1);
         var relY2 = camera.absToRelY(this.y2);
 
-        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#2050d0');
+        drawRect(relX1, relY1, relX2-relX1, relY2-relY1, '#0a1a80');
         if (this.door != null) this.door.draw(camera);
         this.portals.forEach(draw(camera));
         this.items.forEach(draw(camera));
@@ -328,7 +328,7 @@ Portal.prototype = {
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
 
-        drawCircle(relX, relY, relRad, '#ff8000');
+        drawCircle(relX, relY, relRad, '#ff4000');
     },
 }
 
@@ -348,7 +348,7 @@ PickupEnergy.prototype = {
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
 
-        drawCircle(relX, relY, relRad, '#00ffff');
+        drawCircle(relX, relY, relRad, '#20f0ff');
     },
 }
 
@@ -368,7 +368,7 @@ PickupCoin.prototype = {
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
 
-        drawCircle(relX, relY, relRad, '#ffff00');
+        drawCircle(relX, relY, relRad, '#fff000');
     },
 }
 
@@ -396,9 +396,9 @@ PortalEdge.prototype = {
         var thickness = camera.absToRelScale(10);
 
         if (this.focused) {
-            drawCurve(points, thickness, '#ffff00');
+            drawCurve(points, thickness, '#d0d000');
         } else {
-            drawCurve(points, thickness, '#ff0000');
+            drawCurve(points, thickness, '#a00000');
         }
     },
 

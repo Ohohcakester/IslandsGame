@@ -36,15 +36,16 @@ Stage.prototype = {
         drawTextCentered('STAGE CLEAR', 60, RES_X/2, RES_Y/2, '#fff040');
     },
 
-    triggerErrorMessage: function(message, secondaryMessage, duration) {
+    triggerErrorMessage: function(message, secondaryMessage, colour, duration) {
         this.messageExpireTime = Date.now() + duration;
         this.errorMessage = message;
         this.secondaryMessage = secondaryMessage;
+        this.messageColour = colour;
     },
 
     drawErrorMessage: function() {
-        drawTextCentered(this.errorMessage, 30, RES_X/2, RES_Y/2, '#c0ffff');
-        drawTextCentered(this.secondaryMessage, 26, RES_X/2, RES_Y/2+40, '#c0ffff');
+        drawTextCentered(this.errorMessage, 30, RES_X/2, RES_Y/2, this.messageColour);
+        drawTextCentered(this.secondaryMessage, 26, RES_X/2, RES_Y/2+40, this.messageColour);
     },
 }
 
@@ -260,7 +261,7 @@ Player.prototype = {
 
             } else {
                 console.log("Not enough energy! " + this.energy);
-                game.stage.triggerErrorMessage("Not enough energy!", "Collect energy pellets to use warps", 2000);
+                stage.triggerErrorMessage("Not enough energy!", "Collect energy pellets to use warps", "#c0ffff", 2000);
             }
         }
     },
@@ -268,9 +269,14 @@ Player.prototype = {
     updateDoor: function(stage) {
         var door = stage.islands[this.v].door;
         if (door == null) return;
-        if (this.coins < stage.numCoins) return;
         if (this.x >= door.x1 && this.x <= door.x2 && this.y >= door.y1 && this.y <= door.y2) {
-            stageClear();
+            if (this.coins < stage.numCoins) {
+                if (keyClicked[32]) {
+                    stage.triggerErrorMessage("Not enough coins.", "You must collect all coins before exiting.", "#ffff40", 2000);
+                }
+            } else {
+                stageClear();
+            }
         }
     },
 

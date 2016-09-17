@@ -164,6 +164,7 @@ var Player = function(stage) {
     this.x = (island.x1+island.x2)/2;
     this.y = island.y2 - 5;
     this.radius = 20;
+    this.pickupRange = 20;
     this.speed = 7;
     this.energy = 0;
     this.coins = 0;
@@ -207,7 +208,7 @@ Player.prototype = {
             if (!item.isActive) continue;
             var dx = item.x - this.x;
             var dy = item.y - this.y;
-            var r = item.radius + this.radius;
+            var r = item.radius + this.radius + this.pickupRange;
 
             if (dx*dx+dy*dy <= r*r) {
                 item.isActive = false;

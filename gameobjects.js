@@ -5,6 +5,7 @@ var Stage = function() {
     this.startIsland = -1;
     this.focusedPortal = -1;
     this.numCoins = 0;
+    this.messageExpireTime = null;
 }
 
 Stage.prototype = {
@@ -21,10 +22,29 @@ Stage.prototype = {
             var y = Math.floor(i/nCols);
             drawCircle(baseX + x*spacing, baseY + y*spacing, radius, '#00ffff');
         }
+
+        if (this.messageExpireTime != null) {
+            if (Date.now() <= this.messageExpireTime) {
+                this.drawErrorMessage();
+            } else {
+                this.messageExpireTime = null;
+            }
+        }
     },
 
     drawStageClear: function() {
         drawTextCentered('STAGE CLEAR', 60, RES_X/2, RES_Y/2, '#fff040');
+    },
+
+    triggerErrorMessage: function(message, secondaryMessage, duration) {
+        this.messageExpireTime = Date.now() + duration;
+        this.errorMessage = message;
+        this.secondaryMessage = secondaryMessage;
+    },
+
+    drawErrorMessage: function() {
+        drawTextCentered(this.errorMessage, 30, RES_X/2, RES_Y/2, '#c0ffff');
+        drawTextCentered(this.secondaryMessage, 26, RES_X/2, RES_Y/2+40, '#c0ffff');
     },
 }
 
@@ -240,6 +260,7 @@ Player.prototype = {
 
             } else {
                 console.log("Not enough energy! " + this.energy);
+                game.stage.triggerErrorMessage("Not enough energy!", "Collect energy pellets to use warps", 2000);
             }
         }
     },

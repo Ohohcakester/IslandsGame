@@ -10,13 +10,14 @@ var Stage = function() {
 
 Stage.prototype = {
     drawUI: function(stage, player) {
-        drawText(player.coins + ' / ' + stage.numCoins, 20, 20, 30, '#ffffff');
+        drawText('Coins: ' + player.coins + ' / ' + stage.numCoins, 20, 20, 30, '#ffffff');
+        drawText('Energy:', 20, 180, 30, '#ffffff');
 
-        var baseX = 120;
+        var baseX = 270;
         var baseY = 25;
         var radius = 9;
         var spacing = 25;
-        var nCols = Math.ceil((RES_X-2*baseX) / spacing);
+        var nCols = Math.ceil((RES_X-baseX-50) / spacing);
         for (var i=0;i<player.energy;++i) {
             var x = i%nCols;
             var y = Math.floor(i/nCols);

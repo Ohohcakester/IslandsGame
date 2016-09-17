@@ -86,7 +86,7 @@ function mouseClick(e) {
 
 function keyboardPress(e) {
     if(lastDownTarget != mainCanvas) return;
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     if (e.keyCode in keyPressed) {
         keyPressed[e.keyCode] = true;
         e.preventDefault();

@@ -28,6 +28,8 @@ keyPressed = {
 keyClicked = {
     16: false, // lshift
     32: false, // space
+    27: false, // escape
+    82: false, // r
 }
 
 var lastDownTarget = mainCanvas;
@@ -40,6 +42,7 @@ document.addEventListener('mousedown', function(event) {
 // REGION - GAME LOGIC - START
 
 var game = new function() {
+    this.stageString = null;
     this.stage = null;
     this.player = null;
     this.camera = null;
@@ -50,9 +53,15 @@ var game = new function() {
 
 // REGION - GAME LOGIC - END
 function initGameFromTextArea() {
-    initGame(document.getElementById("stageTextArea").value);
+    game.stageString = document.getElementById("stageTextArea").value;
+    initGame(game.stageString);
 }
 
+function restartStage() {
+    var defaultZoomedOut = game.camera.defaultZoomedOut;
+    initGame(game.stageString);
+    game.camera.defaultZoomedOut = defaultZoomedOut;
+}
 
 function initGame(stageString) {
     game.stageCleared = false;
@@ -77,7 +86,7 @@ function mouseClick(e) {
 
 function keyboardPress(e) {
     if(lastDownTarget != mainCanvas) return;
-    //console.log(e.keyCode);
+    console.log(e.keyCode);
     if (e.keyCode in keyPressed) {
         keyPressed[e.keyCode] = true;
         e.preventDefault();
@@ -115,6 +124,11 @@ function updateFrame(){
         if (game.stage != null) {
             game.stage.portalEdges.forEach(update(game.stage));
         }
+    }
+
+    if (keyClicked[27] || keyClicked[82]) {
+        // Restart Stage
+        restartStage();
     }
     keyboardReset();
 }

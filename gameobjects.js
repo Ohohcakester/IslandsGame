@@ -173,7 +173,7 @@ var Player = function(stage) {
 
 Player.prototype = {
     draw: function(camera) {
-        var glowscale = 0.5 + 0.01 * Math.abs(game.animframe%100 - 50);
+        var glowscale = 0.5 + 0.015 * Math.abs(game.animframe%100 - 50);
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
 

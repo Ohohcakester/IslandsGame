@@ -173,11 +173,12 @@ var Player = function(stage) {
 
 Player.prototype = {
     draw: function(camera) {
+        var glowscale = 0.5 + 0.01 * Math.abs(game.animframe%100 - 50);
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
 
-        drawCircle(relX, relY, camera.absToRelScale(this.radius+6), '#808080');
-        drawCircle(relX, relY, camera.absToRelScale(this.radius+3), '#ffffff');
+        drawCircle(relX, relY, camera.absToRelScale(this.radius+6*glowscale), '#808080');
+        drawCircle(relX, relY, camera.absToRelScale(this.radius+3*glowscale), '#ffffff');
         drawCircle(relX, relY, camera.absToRelScale(this.radius), '#ffc0c0');
     },
 
@@ -368,15 +369,19 @@ var PickupEnergy = function(x, y, v) {
     this.radius = pickup_radius;
     this.v = v;
     this.isActive = true;
+    this.startframe = (Math.random()*160) << 0;
 }
 
 PickupEnergy.prototype = {
     draw: function(camera) {
         if (!this.isActive) return;
+        var glowscale = 0.01*Math.abs((game.animframe+this.startframe)%160 - 80);
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
+        var glowRad = camera.absToRelScale(this.radius+2*glowscale);
 
+        drawCircle(relX, relY, glowRad, '#a0ffff');
         drawCircle(relX, relY, relRad, '#20f0ff');
     },
 }
@@ -388,15 +393,19 @@ var PickupCoin = function(x, y, v) {
     this.radius = pickup_radius;
     this.v = v;
     this.isActive = true;
+    this.startframe = (Math.random()*160) << 0;
 }
 
 PickupCoin.prototype = {
     draw: function(camera) {
         if (!this.isActive) return;
+        var glowscale = 0.01*Math.abs((game.animframe+this.startframe)%160 - 80);
         var relX = camera.absToRelX(this.x);
         var relY = camera.absToRelY(this.y);
         var relRad = camera.absToRelScale(this.radius);
+        var glowRad = camera.absToRelScale(this.radius+2*glowscale);
 
+        drawCircle(relX, relY, glowRad, '#ffffa0');
         drawCircle(relX, relY, relRad, '#fff000');
     },
 }

@@ -47,6 +47,7 @@ var game = new function() {
     this.player = null;
     this.camera = null;
     this.stageCleared = false;
+    this.animframe = 0;
 }
 
 
@@ -68,6 +69,7 @@ function initGame(stageString) {
     game.stage = generateStage(stageString);
     game.player = new Player(game.stage);
     game.camera = new Camera(game.stage);
+    game.animframe = 0;
 }
 
 function stageClear() {
@@ -125,7 +127,8 @@ function updateFrame(){
             game.stage.portalEdges.forEach(update(game.stage));
         }
     }
-
+    game.animframe++;
+    
     if (keyClicked[27] || keyClicked[82]) {
         // Restart Stage
         restartStage();

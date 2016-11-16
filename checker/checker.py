@@ -36,6 +36,9 @@ def verify_certificate(stage, certificate):
     stage["islands"].append({
         "c": 0, "e": 1
     })
+    stage["portals"].append([
+        0, stage["start"]
+    ])
     certificate.insert(0, [
         0, stage["start"]
     ])
@@ -46,7 +49,7 @@ def verify_certificate(stage, certificate):
 
     for edge in certificate:
         # Check that the step is valid
-        if current != edge[0] or curr_en == 0:
+        if current != edge[0] or curr_en == 0 or not (edge in stage["portals"] or edge[::-1] in stage["portals"]):
             return False
 
         # execute step

@@ -6,9 +6,15 @@ function checkStage() {
     // Expected certificate is an array of edges, representing the path followed
     // from start to end
 
-    stage = JSON.parse(document.getElementById("stageTextArea").value);
-    certificate = JSON.parse(document.getElementById("certificateTextArea").value);
-
+    try {
+      stage = JSON.parse(document.getElementById("stageTextArea").value);
+      certificate = JSON.parse(document.getElementById("certificateTextArea").value);
+    } catch (err) {
+      console.log(err);
+      document.getElementById("certifiedTextPara").innerHTML = 'No :(<br><br>' + err;
+      return;
+    }
+    
     var check = verifyCertificate();
 
     if (check) {

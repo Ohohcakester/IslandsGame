@@ -9,7 +9,7 @@
       <tr>
         <th>Stage</th>
         <th>Certificate</th>
-        <th style="width:100px">Certified</th>
+        <th style="width:100px">Result</th>
       </tr>
       <tr>
         <td style="padding: 15px; vertical-align: top">
@@ -62,12 +62,15 @@
   [7,5]
 ]</textarea>
         </td>
-        <td style="padding: 15px; vertical-align: top; width:100px; text-align: center" id="certifiedTextPara">
-          Yes!
+        <td style="padding: 15px; vertical-align: top; width:100px; text-align: center">
+          <button onclick="checkStage()">Certify Stage</button>
+          <div style="padding: 15px"><b>Certified:</b>
+            <div id="certifiedTextPara">
+            </div>
+          </div>
         </td>
       </tr>
     </table>
     <br />
-    <button onclick="checkStage()">Certify Stage</button>
   </body>
 </html>
